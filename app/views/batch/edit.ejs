@@ -1,0 +1,112 @@
+<!-- END PAGE TITLE-->
+<!-- END PAGE HEADER-->
+<div class="row">
+  <div class="col-md-10 ">
+    <div class="portlet box purple ">
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="fa fa-gift"></i> <%= formTitle ? formTitle :'Add Batch' %>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form
+          class="form-horizontal"
+          role="form"
+          id="createCourse"
+          method="post"
+        >
+          <div class="form-body">
+            <div class="form-group">
+              <label class="col-md-3 control-label">Course Name:</label>
+              <div class="col-md-9">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Course Name"
+                  name="courseName"
+                  data-required="1"
+                  value="<%= course.courseName %>"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-3 control-label">Course Code:</label>
+              <div class="col-md-9">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Course Code"
+                  name="courseCode"
+                  value="<%= course.courseCode %>"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-3 control-label">Course Alias</label>
+              <div class="col-md-9">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Course Alias"
+                  name="courseAlias"
+                  value="<%= course.courseAlias %>"
+                />
+              </div>
+            </div>
+
+            <!-- <div class="form-group">
+              <label class="col-md-3 control-label">Start Date</label>
+              <div class="col-md-9">
+                <input
+                  class="form-control date-picker "
+                  size="16"
+                  type="text"
+                  value=""
+                  placeholder="Start Date"
+                  name="startDate"
+                  readonly
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label">End Date</label>
+              <div class="col-md-9">
+                <input
+                  class="form-control date-picker "
+                  size="16"
+                  type="text"
+                  value=""
+                  placeholder="End Date"
+                  name="endDate"
+                  readonly
+                />
+              </div>
+            </div> -->
+            <div class="form-group">
+              <label class="col-md-3 control-label">Status</label>
+              <div class="col-md-9">
+                <select class="form-control" name="isActive">
+                  <option value="1" <%= course.isActive ? 'selected' : '' %>  >Active</option>
+                  <option value="0" <%= !course.isActive ? 'selected' : '' %>>In-Active</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions right1">
+            <button type="button" class="btn default">Cancel</button>
+            <button type="submit" class="btn green">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- END SAMPLE FORM PORTLET-->
+    <!-- BEGIN SAMPLE FORM PORTLET-->
+
+    <!-- END SAMPLE FORM PORTLET-->
+    <!-- BEGIN SAMPLE FORM PORTLET-->
+
+    <!-- END SAMPLE FORM PORTLET-->
+  </div>
+</div>
