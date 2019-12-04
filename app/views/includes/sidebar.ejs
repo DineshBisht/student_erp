@@ -303,17 +303,17 @@
                   <span class="arrow"></span>
               </a>
               <ul class="sub-menu">
-                  <li class="nav-item  active open">
+                  <li class="nav-item  <%= (typeof activeSidebar != 'undefined'  && activeSidebar =='batch') ? 'active open' :''  %>">
                       <a href="/batch" class="nav-link ">
                           <span class="title">Batch
                       </a>
                   </li>
-                  <li class="nav-item  ">
+                  <li class="nav-item  <%= (typeof activeSidebar != 'undefined'  && activeSidebar === 'section') ? 'active open' :''  %>">
                       <a href="/section" class="nav-link ">
                           <span class="title">Section</span>
                       </a>
                   </li>
-                  <li class="nav-item  ">
+                  <li class="nav-item <%= (typeof activeSidebar != 'undefined'  && activeSidebar === 'course') ? 'active open' :''  %> ">
                     <a href="/course" class="nav-link ">
                         <span class="title">Course
                             
@@ -322,6 +322,61 @@
                 
               </ul>
           </li>
+
+          <li class="nav-item ">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-settings"></i>
+                <span class="title">Configuration</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub-menu">
+            
+                <li class="nav-item  <%= (typeof activeSidebar != 'undefined'  && activeSidebar === 'country') ? 'active open' :''  %>">
+                        <a href="/configuration/country" class="nav-link ">
+                            <span class="title">Country</span>
+                        </a>
+                </li>
+                <li class="nav-item  <%= (typeof activeSidebar != 'undefined'  && activeSidebar =='state') ? 'active open' :''  %>">
+                    <a href="#" class="nav-link ">
+                        <span class="title">State / Province
+                    </a>
+                </li>
+                
+                <li class="nav-item  <%= (typeof activeSidebar != 'undefined'  && activeSidebar === 'city') ? 'active open' :''  %>">
+                        <a href="#" class="nav-link ">
+                            <span class="title">City / Town</span>
+                        </a>
+                </li>
+                <li class="nav-item  <%= (typeof activeSidebar != 'undefined'  && activeSidebar === 'document') ? 'active open' :''  %>">
+                        <a href="#" class="nav-link ">
+                            <span class="title">Document / Category</span>
+                        </a>
+                </li>
+                <li class="nav-item  <%= (typeof activeSidebar != 'undefined'  && activeSidebar === 'language') ? 'active open' :''  %>">
+                        <a href="#" class="nav-link ">
+                            <span class="title">Languages</span>
+                        </a>
+                </li>
+                <li class="nav-item  <%= (typeof activeSidebar != 'undefined'  && activeSidebar === 'holiday') ? 'active open' :''  %>">
+                        <a href="#" class="nav-link ">
+                            <span class="title">National Holiday</span>
+                        </a>
+                </li>
+                <li class="nav-item  <%= (typeof activeSidebar != 'undefined'  && activeSidebar === 'nationality') ? 'active open' :''  %>">
+                        <a href="#" class="nav-link ">
+                            <span class="title">Nationality</span>
+                        </a>
+                </li>
+                <li class="nav-item  <%= (typeof activeSidebar != 'undefined'  && activeSidebar === 'institute') ? 'active open' :''  %>">
+                        <a href="#" class="nav-link ">
+                            <span class="title">Institute</span>
+                        </a>
+                </li>
+               
+              
+            </ul>
+        </li>
+
           <li class="nav-item  ">
               <a href="javascript:;" class="nav-link nav-toggle">
                   <i class="icon-bulb"></i>

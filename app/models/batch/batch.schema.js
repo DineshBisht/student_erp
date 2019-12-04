@@ -2,14 +2,13 @@ const mongoose = require("mongoose");
 const batchSchema = mongoose.Schema(
   {
     batchName: String,
-    batchCode: String,
     batchAlias: String,
-    courseId: String,
+    course: { type: mongoose.Schema.Types.ObjectId, ref: "course" },
     startDate: { type: Date },
     endDate: { type: Date },
     createdBy: Number,
     updatedBy: Number,
-    createdDate: { type: Date, default: Date.now },
+    createdDate: { type: Date },
     updatedDate: { type: Date, default: Date.now },
     status: Boolean
   },

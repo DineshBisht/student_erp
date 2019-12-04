@@ -1,0 +1,87 @@
+<!-- END PAGE TITLE-->
+<!-- END PAGE HEADER-->
+<div class="row">
+  <div class="col-md-10 ">
+    <div class="portlet box purple ">
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="fa fa-gift"></i> <%= formTitle ? formTitle :'Add Batch' %>
+        </div>
+      </div>
+      <div class="portlet-body form">
+        <form
+          class="form-horizontal"
+          role="form"
+          id="sectionForm"
+          method="post"
+        >
+          <div class="form-body">
+            <div class="form-group">
+              <label class="col-md-3 control-label">Section Name:</label>
+              <div class="col-md-9">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Section Name"
+                  name="sectionName"
+                  data-required="1"
+                  value="<%= section.sectionName %>"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-3 control-label">Batch</label>
+              <div class="col-md-9">
+                <select name="batch" class="form-control">
+                  <option value="">Select Batch</option>
+                  <% if ( typeof batchLists !='undefined' ){ %> <%
+                  batchLists.map((batch)=>{%>
+                  <option value="<%= batch._id %>"  <%= ( batch._id.equals(section.batch) ) ? "selected" : "" %>
+                    ><%= batch.batchName %></option
+                  >
+                  <%}) } %>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-3 control-label">Intake:</label>
+              <div class="col-md-9">
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Intake"
+                  name="intake"
+                  data-required="1"
+                  value="<%= section.intake %>"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-3 control-label">Status</label>
+              <div class="col-md-9">
+                <select class="form-control" name="status">
+                  <option value="1" <%= section.status ? 'selected' : '' %> >Active</option>
+                  <option value="0" <%= !section.status ? 'selected' : '' %> >In-Active</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions right1">
+            <button type="button" class="btn default">Cancel</button>
+            <button type="submit" class="btn green">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- END SAMPLE FORM PORTLET-->
+    <!-- BEGIN SAMPLE FORM PORTLET-->
+
+    <!-- END SAMPLE FORM PORTLET-->
+    <!-- BEGIN SAMPLE FORM PORTLET-->
+
+    <!-- END SAMPLE FORM PORTLET-->
+  </div>
+</div>

@@ -130,7 +130,10 @@ exports.loadCourseLists = function(req, res, next) {
       courses.map(course => {
         records.push([
           `<label>
-          <div class="checker"><span><input type="checkbox" class='checkboxes' name='courseId[${course._id}]' value='${course._id}' ></span></div> </label>`,
+          <div class="checker">
+            <span><input type="checkbox" class='checkboxes' name='courseId[${course._id}]' value='${course._id}' ></span>
+            </div> 
+          </label>`,
           course.courseName,
           course.courseCode,
           course.courseAlias,

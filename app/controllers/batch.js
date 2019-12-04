@@ -1,20 +1,23 @@
 const batchModel = require("../models/batch/batch.model");
-
-exports.createCourse = function(req, res, next) {
-  const courseData = req.body;
-  courseData.createdBy = 1;
-  courseData.updatedBy = 1;
-  batchModel.createCourse(courseData);
-  req.flash("success", "Course has been added successfully");
-  res.redirect("/course");
+const _h = require("../helpers/util");
+exports.createBatch = function(req, res, next) {
+  const batchData = req.body;
+  batchData.createdBy = 1;
+  batchData.updatedBy = 1;
+  batchModel.createBatch(batchData);
+  req.flash("success", "Batch has been added successfully");
+  res.redirect("/batch");
 };
 
-exports.create = function(req, res, next) {
+exports.create = async function(req, res, next) {
+  const courseLists = await batchModel.getCourseList();
+
   const data = {
     pageTitle: "Create Batch",
     formTitle: "Add Batch",
     success: req.flash("success"),
-    error: req.flash("error")
+    error: req.flash("error"),
+    courseLists
   };
   res.render("batch/create", data);
 };
@@ -29,116 +32,117 @@ exports.batchLists = function(req, res, next) {
   res.render("batch/", data);
 };
 
-exports.editCourse = function(req, res, next) {
-  const courseId = req.params.courseId;
-
-  if (courseId) {
+exports.updateBatch = function(req, res, next) {
+  const batchId = req.params.batchID;
+  if (batchId) {
     batchModel
-      .findCourseById(courseId)
-      .then(course => {
-        const data = {
-          pageTitle: "Edit Course",
-          formTitle: "Edit Course",
-          course
-        };
+      .findBatchById(batchId)
+      .then(batch => {
+        const {
+          batchName,
+          batchAlias,
+          course,
+          startDate,
+          endDate,
+          status
+        } = req.body;
 
-        res.render("course/edit", data);
+        batch.batchName = batchName;
+        batch.batchAlias = batchAlias;
+        batch.course = course;
+        batch.startDate = startDate;
+        batch.endDate = endDate;
+        batch.status = status;
+
+        batch.save((err, succ) => {
+          if (err) {
+            req.flash("error", err.message);
+            res.redirect("/batch");
+          } else if (succ) {
+            req.flash("success", "Batch has been updated successfully");
+            res.redirect("/batch");
+          }
+        });
       })
       .catch(err => {
         req.flash("error", err.message);
-        res.redirect("/course");
+        res.redirect("/batch");
       });
+  } else {
+    req.flash("error", "Request Parameter not found");
+    res.redirect("/batch");
   }
 };
 
-exports.updateCourse = function(req, res, next) {
-  const courseId = req.params.courseId;
+exports.editBatch = async function(req, res, next) {
+  const batchId = req.params.batchID;
+  const data = {
+    pageTitle: "Edit Batch",
+    formTitle: "Edit Batch",
+    _h: _h
+  };
 
-  batchModel
-    .findCourseById(courseId)
-    .then(course => {
-      const { courseName, courseCode, courseAlias, isActive } = req.body;
-      course.courseName = courseName;
-      course.courseCode = courseCode;
-      course.courseAlias = courseAlias;
-      course.isActive = isActive;
+  await batchModel.getCourseList().then(courseLists => {
+    if (courseLists) {
+      data.courseLists = courseLists;
+    }
+  });
 
-      course.save((err, succ) => {
-        if (err) {
-          req.flash("error", err.message);
-          res.redirect("/course/" + courseId);
-        } else if (succ) {
-          req.flash(
-            "success",
-            courseName + " course has been updated successfully"
-          );
-          res.redirect("/course");
-        }
-      });
-    })
-    .catch(error => {
-      req.flash("error", error.message);
-      res.redirect("/course/" + courseId);
-    });
-};
-
-exports.deleteCourse = function(req, res) {
-  const courseID = req.params.courseId;
-  if (courseID) {
+  if (batchId) {
     batchModel
-      .deleteCourseById(courseID)
-      .then(course => {
-        if (course) {
-          res.status(200);
-          res.json({ message: "Course has been deleted successfully" });
-        } else {
-          res.status(401);
-          res.json({ message: "Course not deleted successfully" });
-        }
+      .findBatchById(batchId)
+      .then(batch => {
+        data.batch = batch;
+        res.render("batch/edit", data);
       })
       .catch(err => {
-        console.log(err.message);
-        res.status(500);
-        res.json({ message: "Server error " + err.message });
+        req.flash("error", err.message);
+        res.redirect("/batch");
       });
+  } else {
+    req.flash("error", "Request Parameter not found");
+    res.redirect("/batch");
   }
 };
-exports.loadBatchList = function(req, res, next) {
-  const courseReq = req.body;
+
+exports.loadBatchLists = function(req, res, next) {
+  const batchReq = req.body;
   let records = [];
 
   let iTotalRecords = 0;
 
-  batchModel.countAllCourse(courseReq).then(allCourseCount => {
-    iTotalRecords = allCourseCount;
+  batchModel.countAllBatch(batchReq).then(totalBatch => {
+    iTotalRecords = totalBatch;
   });
 
-  let iDisplayLength = parseInt(courseReq.length);
+  let iDisplayLength = parseInt(batchReq.length);
   iDisplayLength = iDisplayLength < 0 ? iTotalRecords : iDisplayLength;
-  let iDisplayStart = parseInt(courseReq.start);
+  let iDisplayStart = parseInt(batchReq.start);
 
-  let sEcho = parseInt(courseReq.start);
+  let sEcho = parseInt(batchReq.start);
 
-  const allCourses = batchModel.courseLists(
+  const batchList = batchModel.batchList(
     iDisplayStart,
     iDisplayLength,
-    courseReq
+    batchReq
   );
 
-  allCourses.then(courses => {
-    if (courses.length > 0) {
-      courses.map(course => {
+  batchList.then(batch => {
+    if (batch.length > 0) {
+      batch.map(batch => {
         records.push([
           `<label>
-          <div class="checker"><span><input type="checkbox" class='checkboxes' name='courseId[${course._id}]' value='${course._id}' ></span></div> </label>`,
-          course.courseName,
-          course.courseCode,
-          course.courseAlias,
-          course.isActive ? "Active" : "In-Active",
-          `<button class="btn btn-sm btn-default filter-cancel" onclick="javascript:editCourse('${course._id}')">
+          <div class="checker"><span><input type="checkbox" class='checkboxes' name='batchId[${batch._id}]' value='${batch._id}' ></span></div> </label>`,
+          batch.batchName,
+          batch.batchAlias,
+          batch.course.courseName,
+          _h.formatDate(batch.startDate, "DD/MM/YYYY"),
+          _h.formatDate(batch.endDate, "DD/MM/YYYY"),
+          batch.status ? "Active" : "In-Active",
+          `<button class="btn btn-sm btn-default filter-cancel" onclick="javascript:redirectForm('batch/${batch._id}')">
           <i class="fa fa-pencil"></i> Edit</button>
           &nbsp;
-          <button class="btn btn-sm btn-default filter-cancel" onclick="javascript:deleteCourse('${course._id}')">
+          <button class="btn btn-sm btn-default filter-cancel" onclick="javascript:deleteBatch('${batch._id}')">
           <i class="fa fa-trash"></i> Delete</button>
           
           `
@@ -162,4 +166,23 @@ exports.loadBatchList = function(req, res, next) {
       res.json(dataTable);
     }
   });
+};
+
+exports.deleteBatch = function(req, res, next) {
+  const batchID = req.params.batchID;
+  if (batchID) {
+    batchModel
+      .deletBatch(batchID)
+      .then(batch => {
+        res.status(200);
+        res.json({ message: "Batch has been deleted successfully" });
+      })
+      .catch(err => {
+        res.status(401);
+        res.json({ message: "Batch not deleted successfully" });
+      });
+  } else {
+    res.status(401);
+    res.json({ message: "Required parameter not found" });
+  }
 };

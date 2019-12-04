@@ -51,8 +51,6 @@ function getFilterOrder(courseReq) {
 function courseLists(start, end, courseReq) {
   const filterQuery = getFilter(courseReq);
   const courseOrderBy = getFilterOrder(courseReq);
-  console.log("---------");
-  console.log(courseOrderBy);
   return courseModel
     .find(filterQuery)
     .sort(courseOrderBy)

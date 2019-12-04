@@ -12,45 +12,32 @@
         <form
           class="form-horizontal"
           role="form"
-          id="createBatch"
+          id="sectionForm"
           method="post"
         >
           <div class="form-body">
             <div class="form-group">
-              <label class="col-md-3 control-label">Batch Name:</label>
+              <label class="col-md-3 control-label">Section Name:</label>
               <div class="col-md-9">
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Batch Name"
-                  name="batchName"
+                  placeholder="Section Name"
+                  name="sectionName"
                   data-required="1"
                 />
               </div>
             </div>
 
             <div class="form-group">
-              <label class="col-md-3 control-label">Batch Alias</label>
+              <label class="col-md-3 control-label">Batch</label>
               <div class="col-md-9">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Batch Alias"
-                  name="batchAlias"
-                />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="col-md-3 control-label">Course</label>
-              <div class="col-md-9">
-                <select name="course" class="form-control">
-                  <option value="">Select Course</option>
-                  <% if ( typeof courseLists !='undefined' ){ %> <%
-                  courseLists.map((course)=>{%>
-                  <option value="<%= course._id %>"
-                    ><%= course.courseName + ' - ' + course.courseCode
-                    %></option
+                <select name="batch" class="form-control">
+                  <option value="">Select Batch</option>
+                  <% if ( typeof batchLists !='undefined' ){ %> <%
+                  batchLists.map((batch)=>{%>
+                  <option value="<%= batch._id %>"
+                    ><%= batch.batchName %></option
                   >
                   <%}) } %>
                 </select>
@@ -58,39 +45,24 @@
             </div>
 
             <div class="form-group">
-              <label class="col-md-3 control-label">Start Date</label>
+              <label class="col-md-3 control-label">Intake:</label>
               <div class="col-md-9">
                 <input
-                  class="form-control date-picker "
-                  size="16"
-                  type="text"
-                  value=""
-                  placeholder="Start Date"
-                  name="startDate"
-                  readonly
+                  type="number"
+                  class="form-control"
+                  placeholder="Intake"
+                  name="intake"
+                  data-required="1"
                 />
               </div>
             </div>
-            <div class="form-group">
-              <label class="col-md-3 control-label">End Date</label>
-              <div class="col-md-9">
-                <input
-                  class="form-control date-picker "
-                  size="16"
-                  type="text"
-                  value=""
-                  placeholder="End Date"
-                  name="endDate"
-                  readonly
-                />
-              </div>
-            </div>
+
             <div class="form-group">
               <label class="col-md-3 control-label">Status</label>
               <div class="col-md-9">
                 <select class="form-control" name="status">
                   <option value="1">Active</option>
-                  <option value="1">In-Active</option>
+                  <option value="0">In-Active</option>
                 </select>
               </div>
             </div>

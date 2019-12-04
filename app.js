@@ -63,6 +63,8 @@ require("./config/routes.js")(app, passport); // load our routes and pass in our
 const router = require("./app/routes/");
 app.use("/course", router.course);
 app.use("/batch", router.batch);
+app.use("/section", router.section);
+app.use("/configuration/country", router.country);
 
 //launch ======================================================================
 app.listen(port);
